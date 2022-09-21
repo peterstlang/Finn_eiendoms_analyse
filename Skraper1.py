@@ -29,7 +29,7 @@ for listing in bs.find_all('article', class_="relative overflow-hidden transitio
     footer = listing.find('div', class_="col-span-2 mt-16 sm:mt-4 flex justify-between sm:block space-x-12 font-bold")
     tst = [t for t in footer.stripped_strings]
     tst[1].replace('\\xa', ' ')
-    break
+    lst.append(tst)
     
 
     
