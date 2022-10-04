@@ -28,6 +28,7 @@ area_dict = {
 area_dict['Oslo']
 
 #getting url
+#IKKE FERDIG
 def set_url(area=None):
     if area==None:
         print('type a valid are')
