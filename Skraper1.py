@@ -29,19 +29,19 @@ area_dict['Oslo']
 
 #getting url
 #IKKE FERDIG
-def set_url(area=None):
+def set_url(area=None, codes=area_dict):
     if area==None:
-        print('type a valid are')
         site = "https://www.finn.no/realestate/homes/search.html?sort=PUBLISHED_DESC"
-        return 
+        return site
     else:
-        frag_1 = "https://www.finn.no/realestate/homes/search.html?"
-        frag_2 = "sort=PUBLISHED_DESC"
-    return None
+        frag_1 = "https://www.finn.no/realestate/homes/search.html?location="
+        frag_2 = "&sort=PUBLISHED_DESC"
+        site = frag_1 + str(codes[area]) + frag_2
+    return site
     
     
 
-url = "https://www.finn.no/realestate/homes/search.html?sort=PUBLISHED_DESC"
+url = set_url()
 
 
 site = get(url)
@@ -77,6 +77,10 @@ for listing in bs.find_all('article',
     print(m_square, price, address, addloc)
     
     break
+
+if __name__ == "__main__":
+    site = set_url(area='Agder')
+    print(site)
     
 
     
