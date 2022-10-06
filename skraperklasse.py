@@ -23,6 +23,35 @@ class FinnSkraper:
         'Viken':'0.22030'
     }
     
+    sub_area_dict = {
+        'Agder': {
+            'Arendal':'.20166',
+            'Birkenes':'.20172',
+            'Bygland':'.20176',
+            'Bykle':'.20178',
+            'Evje og Hornnes':'.20175',
+            'Farsund':'.20181',
+            'Flekkefjord':'.20182',
+            'Froland':'.20170',
+            'Gjerstad':'.20167',
+            'Grimstad':'.20165',
+            'Hægebostad':'.20191',
+            'Iveland':'.20174',
+            'Kristiansand':'.20179', #her er det mer nøsting se på senere
+            'Kvinesdal':'.20192',
+            'Lillesand':'.20171',
+            'Lindesnes':'.20189',
+            'Lyngdal':'.20190',
+            'Risør':'.20164',
+            'Sirdal':'.20193',
+            'Tvedestrand':'.20169',
+            'Valle':'.20177',
+            'Vegårshei':'.20168',
+            'Vennesla':'.20183',
+            'Åmli':'.20173',
+            'Åseral':'.20187'
+            }}
+    
     def __init__(self, area=[]):
         if not isinstance(area, list):
             raise TypeError('area must be in a list')
