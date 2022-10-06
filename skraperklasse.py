@@ -23,22 +23,32 @@ class FinnSkraper:
         'Viken':'0.22030'
     }
     
-    def __init__(self, area=None):
-        try:
-            self.area = self.area_dict[area]
-        except:
-            self.area = area
+    def __init__(self, area=[]):
+        if not isinstance(area, list):
+            raise TypeError('area must be in a list')
+        self.area = area
         
     def set_url(self):
-        if self.area == None:
+        """Creating url based on options chosen by the user (only area as 
+        of now), these selections alter the link. Based on what areas 
+        the user wants the link is altered thereafter"""
+        
+        if self.area == []:
             return "https://www.finn.no/realestate/homes/search.html?sort=PUBLISHED_DESC"
-        else:
-            frag_1 = "https://www.finn.no/realestate/homes/search.html?location="
-            frag_2 = "&sort=PUBLISHED_DESC"
-            return frag_1 + str(self.area) + frag_2
+        
+        link_1 = "https://www.finn.no/realestate/homes/search.html?"
+        link_2 = "sort=PUBLISHED_DESC"
+
+        for area in self.area:
+            if area not in self.area_dict:
+                raise ValueError('must be a valid area')
+            link_1 += "location=" + self.area_dict[area] + "&"
+        return link_1 + link_2
+            
+            
         
         
 if __name__ == "__main__":
-    obj = FinnSkraper(area='Oslo')
+    obj = FinnSkraper(area=['Oslo', 'Innlandet'])
     url = obj.set_url()
         
