@@ -52,6 +52,8 @@ class FinnSkraper:
             'Åseral':'.20187'
             }}
     
+    #https://thispointer.com/python-how-to-iterate-over-nested-dictionary-dict-of-dicts/
+    #Dette er en nice link for problemet hehe
     def __init__(self, area=[]):
         if not isinstance(area, list):
             raise TypeError('area must be in a list')
