@@ -109,6 +109,7 @@ class FinnSkraper:
                     yield (k, *pair)
             else:
                 yield (k, v)
+            print(k)
                 
     # steg 3
     def create_lst(self, generator_obj):
@@ -126,6 +127,12 @@ class FinnSkraper:
                     x.append(ele)
             main_lst.append(x)
         return main_lst
+
+# må fortsette med den her
+
+####################################################################
+##
+###########################################################
         
     
     
