@@ -23,7 +23,7 @@ class createlink:
     
         
     
-    def __init__(self, areas=[]):
+    def __init__(self, areas=[], is_new_property=None):
         """
         initialize the link class. need areas in list form
 
@@ -52,14 +52,19 @@ class createlink:
         self.loc_list = gt.get_loc_code(self.full_list)
         self.areas = areas
         
+        
+        # is new property var
+        self.is_new_property = is_new_property
+        
         # url variables for links
         self.url_1 = "https://www.finn.no/realestate/homes/search.html?"
+        self.is_new_property_link = ""
         self.url_2 = "sort=PUBLISHED_DESC"
                 
         # checking if input is list
         if not isinstance(areas, list):
             raise TypeError("areas must be a list!")
-        
+            
         # if list is not empty, checking whether the areas are valid
         # cleaning functions should catch most, as long as its spelled correctly
         if len(areas) > 0:
@@ -67,14 +72,27 @@ class createlink:
                 self.areas[i] = self.clean_string(area)
                 if self.areas[i] not in self.area_list:
                    raise ValueError("{} is not a valid area!".format(area))
-                    
+        
+        
+        if self.is_new_property is not None:
+            if not isinstance(is_new_property, bool):
+                raise TypeError("if not None then Bool!")
+            self.is_new_property_link = "is_new_property="
+            if self.is_new_property == True:
+                self.is_new_property_link += "true&"
+            else:
+                self.is_new_property_link += "false&"
+                
+            
+        
+
     def get_link(self):
         #gets link based on areas chosen
         for area in self.areas:
             idx = self.area_list.index(area)
             loc = self.loc_list[idx] + "&"
             self.url_1 += loc
-        return self.url_1 + self.url_2
+        return self.url_1 + self.is_new_property_link + self.url_2
                     
     
                     
@@ -83,9 +101,11 @@ class createlink:
 
         
 if __name__ == "__main__":
-    obj = createlink(areas=['BØler', 'HelsfyrSinsen', 'røa', 'Sagene Torshov'])
+    obj = createlink(areas=['Bøler', 'gamle Oslo', 'Grorud', 'Røa', 'sentrum'],is_new_property=True)
     obj.areas
     link = obj.get_link()
+
+
 
 
 
