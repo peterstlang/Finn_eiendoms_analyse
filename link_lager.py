@@ -101,7 +101,7 @@ class createlink:
 
         
 if __name__ == "__main__":
-    obj = createlink(areas=['Bøler', 'gamle Oslo', 'Grorud', 'Røa', 'sentrum'],is_new_property=True)
+    obj = createlink(areas=['Bøler', 'gamle Oslo', 'Grorud', 'Røa', 'sentrum'], is_new_property=True)
     obj.areas
     link = obj.get_link()
 
