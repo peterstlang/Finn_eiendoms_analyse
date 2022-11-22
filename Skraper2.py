@@ -31,11 +31,21 @@ Created on Tue Nov 22 19:59:06 2022
 
 # main function to run the script
 
-#importing "link_lager"
+# imports
 from link_lager import createlink
+from bs4 import BeautifulSoup 
+from requests import get
 
-if __name__ == "__main__":
+def get_link():
     obj = createlink(areas=['Bøler', 'GAMLEOslo',
                             'Grorud', 'Røa', 'sentrum'], 
                      is_new_property=True)
     link = obj.get_link()
+    return link
+    
+def scrape_link(url):
+    site = get(url)
+    
+
+if __name__ == "__main__":
+    link = get_link()
