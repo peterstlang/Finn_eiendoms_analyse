@@ -93,10 +93,10 @@ if __name__ == "__main__":
     
     obj = createlink(areas=['Oslo'], is_new_property=True)
     obj.areas
-    link = obj.get_link()
+    baseurl = obj.get_link()
     
     # test link
-    site = get(link)
+    site = get(baseurl)
 
     #print(site.content, "html.parser")
 
@@ -104,18 +104,35 @@ if __name__ == "__main__":
     bs = BeautifulSoup(site.content, "html.parser")
     
     ctr = 1
-    for listing in bs.find_all('div', 
-                               class_="u-hide-lt768"):
-        #get link
-        link = obj.get_link()
-        site = get(link)
-        bs = BeautifulSoup(site.content, "html.parser")
-        
+    populated = True
+    
+    while populated:
         if ctr > 1:
-            link = str(link)+"page={}".format(ctr)
-        tst = listing.find('a', attrs={"aria-label": "Side {}".format(ctr)})
-        print(tst)
+            link = str(baseurl) + "&page={}".format(ctr)
+            site = get(link)
+            bs = BeautifulSoup(site.content, "html.parser")
+        tester = bs.find("h2", class_="u-t3 u-pa16 u-text-center")
+        if tester is None:
+            get_rows(bs, check_skipped=True)
+        elif tester.text == "Ingen treff akkurat nå":
+            populated = False
         ctr += 1
+        
+        
+    
+    
+    # for listing in bs.find_all('div', 
+    #                            class_="u-hide-lt768"):
+    #     #get link
+    #     link = obj.get_link()
+    #     site = get(link)
+    #     bs = BeautifulSoup(site.content, "html.parser")
+        
+    #     if ctr > 1:
+    #         link = str(link)+"page={}".format(ctr)
+    #     tst = listing.find('a', attrs={"aria-label": "Side {}".format(ctr)})
+    #     print(tst)
+    #     ctr += 1
     
     
     
@@ -123,8 +140,13 @@ if __name__ == "__main__":
     
     # tellevariabler som hjelper meg med å se
     # hvor mange instanser som ikke inneholder infoen jeg ønsker
-
-        
+    
+    tst_link = "https://www.finn.no/realestate/homes/search.html?is_new_property=true&location=0.20061&page=7&sort=PUBLISHED_DESC"
+    site = get(tst_link)
+    soup = BeautifulSoup(site.content, "html.parser")
+    
+    tester = soup.find("h2", class_="u-t3 u-pa16 u-text-center")
+    print(tester.text) 
 
 
 
