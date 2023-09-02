@@ -53,56 +53,7 @@ site = get(url)
 #teste
 bs = BeautifulSoup(site.content, "html.parser")
 
-
-lst = []
-for listing in bs.find_all('article', 
-                           class_="relative overflow-hidden transition-all outline-none sf-ad-outline sf-ad-card rounded-8 mt-24 mx-16 mb-16 sm:mb-24 relative"):
-    #print(offer.stripped_strings)
-    #print(listing.prettify())
-    #print("\n")
-    #print("\n")
-    
-    #tst = [text for text in listing.stripped_strings]
-    #lst.append(tst)
-    
-    footer = listing.find('div', class_="col-span-2 mt-16 sm:mt-4 flex justify-between sm:block space-x-12 font-bold")
-    location = listing.find('span', class_="text-14 text-gray-500")
-    location = location.text
-    location = location.split(',')
-    address = location[0]
-    addloc = location[1]
-
-    tst = [t for t in footer.stripped_strings]
-    tst[1].replace('\\xa', ' ')
-    m_square = tst[0]
-    price = tst[1]
-    print(m_square, price, address, addloc)
-    
-    break
-
-if __name__ == "__main__":
-    #imports i guess
-    #imports
-    from bs4 import BeautifulSoup 
-    from requests import get
-    #eget bibliotek hehe
-    from link_lager import createlink
-    
-    obj = createlink(areas=['Bøler', 'GAMLEOslo', 'Grorud', 'Røa', 'sentrum'], is_new_property=True)
-    obj.areas
-    link = obj.get_link()
-    #print(link)
-    
-    # test link
-    site = get(link)
-
-    #print(site.content, "html.parser")
-
-    #teste
-    bs = BeautifulSoup(site.content, "html.parser")
-    
-    # tellevariabler som hjelper meg med å se
-    # hvor mange instanser som ikke inneholder infoen jeg ønsker
+def get_rows(bs, check_skipped=False):
     ctr = 0
     
     for listing in bs.find_all('article', 
@@ -127,30 +78,52 @@ if __name__ == "__main__":
         # Gir meg informasjon kvadratmeter, pris (en range), adresse, og sted
         print(m_square, price, address, addloc)
         print("\n")
-    print("Det var {} annonser som ble hoppet over:".format(ctr))
-    # lst = []
-    # for listing in bs.find_all('article', 
-    #                            class_="relative overflow-hidden transition-all outline-none sf-ad-outline sf-ad-card rounded-8 mt-24 mx-16 mb-16 sm:mb-24 relative"):
-    #     #print(offer.stripped_strings)
-    #     #print(listing.prettify())
-    #     #print("\n")
-    #     #print("\n")
         
-    #     #tst = [text for text in listing.stripped_strings]
-    #     #lst.append(tst)
-        
-    #     footer = listing.find('div', class_="col-span-2 mt-16 sm:mt-4 flex justify-between sm:block space-x-12 font-bold")
-        # location = listing.find('span', class_="text-14 text-gray-500")
-        # location = location.text
-        # location = location.split(',')
-        # address = location[0]
-        # addloc = location[1]
+    if check_skipped == True:
+        print("Det var {} annonser som ble hoppet over:".format(ctr))
+    
 
-        # tst = [t for t in footer.stripped_strings]
-        # tst[1].replace('\\xa', ' ')
-        # m_square = tst[0]
-        # price = tst[1]
-        # print(m_square, price, address, addloc)
+if __name__ == "__main__":
+    #imports i guess
+    #imports
+    from bs4 import BeautifulSoup 
+    from requests import get
+    #eget bibliotek hehe
+    from link_lager import createlink
+    
+    obj = createlink(areas=['Oslo'], is_new_property=True)
+    obj.areas
+    link = obj.get_link()
+    
+    # test link
+    site = get(link)
+
+    #print(site.content, "html.parser")
+
+    #teste
+    bs = BeautifulSoup(site.content, "html.parser")
+    
+    ctr = 1
+    for listing in bs.find_all('div', 
+                               class_="u-hide-lt768"):
+        #get link
+        link = obj.get_link()
+        site = get(link)
+        bs = BeautifulSoup(site.content, "html.parser")
+        
+        if ctr > 1:
+            link = str(link)+"page={}".format(ctr)
+        tst = listing.find('a', attrs={"aria-label": "Side {}".format(ctr)})
+        print(tst)
+        ctr += 1
+    
+    
+    
+    get_rows(bs, check_skipped=True)
+    
+    # tellevariabler som hjelper meg med å se
+    # hvor mange instanser som ikke inneholder infoen jeg ønsker
+
         
 
 
